@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class MovieController extends AbstractController
 {
     /**
- * @Route("", name="home")
- */
+     * @Route("", name="home")
+     */
     public function index()
     {
         return $this->render('movie/index.html.twig', [
@@ -25,8 +25,8 @@ class MovieController extends AbstractController
     }
 
     /**
- * @Route("/{title}", name="details")
- */
+     * @Route("/{title}", name="details")
+     */
     public function details(string $title): Response
     {
         $data = (new OMDbApiConsumer())->consume(OMDbApiConsumer::MODE_TITLE, $title);
