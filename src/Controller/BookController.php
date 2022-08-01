@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
+use App\Form\BookType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +25,17 @@ class BookController extends AbstractController
     {
         return $this->render('book/index.html.twig', [
             'controller_name' => $id,
+        ]);
+    }
+
+    #[Route('/new', name: 'new')]
+    public function new(): Response
+    {
+        $book = new Book();
+        $bookForm = $this->createForm(BookType::class, $book);
+
+        return $this->renderForm('book/new.html.twig', [
+            'bookForm' => $bookForm,
         ]);
     }
 }
