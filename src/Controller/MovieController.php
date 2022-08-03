@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,8 @@ class MovieController extends AbstractController
     #[Route('/{!id<\d+>?1}', name: 'show')]
     public function show(Movie $movie): Response
     {
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/details.html.twig', [
             'movie' => $movie,
         ]);
@@ -33,8 +36,11 @@ class MovieController extends AbstractController
     #[Route('/title/{title}', name: 'details')]
     public function details(string $title, MovieProvider $provider): Response
     {
+        $movie = $provider->getMovieByTitle($title);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => $provider->getMovieByTitle($title),
+            'movie' => $movie,
         ]);
     }
 }
