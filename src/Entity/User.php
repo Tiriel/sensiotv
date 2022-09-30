@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $birthday = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastConnectedAt = null;
 
     public function getId(): ?int
     {
@@ -110,6 +114,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(?\DateTimeImmutable $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getLastConnectedAt(): ?\DateTimeInterface
+    {
+        return $this->lastConnectedAt;
+    }
+
+    public function setLastConnectedAt(): self
+    {
+        $this->lastConnectedAt = new \DateTime();
 
         return $this;
     }
