@@ -15,7 +15,8 @@ class MovieProvider
     public function __construct(
         private MovieRepository $movieRepository,
         private OMDbApiConsumer $consumer,
-        private OmdbMovieTransformer $transformer
+        private OmdbMovieTransformer $transformer,
+        private Security $security
     ) {}
 
     public function getMovieByTitle(string $title)
@@ -38,6 +39,7 @@ class MovieProvider
             return $entity;
         }
 
+        $movie->setAddedBy($this->security->getUser());
         $this->movieRepository->add($movie, true);
 
         return $movie;

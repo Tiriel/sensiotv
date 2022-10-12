@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MovieController!{% endblock %}
+{% block title %}Movie : {{ movie.title }}{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
@@ -10,8 +10,11 @@
     <ul>
         <li>Id : {{ movie.id }}</li>
         <li>Released at: {{ movie.releasedAt|date('Y M d') }}</li>
+        <li>Country : {{ movie.country }}</li>
+        <li>Rated : {{ movie.rated }}</li>
         <li>Genres : {{ movie.genres|reduce((carry, genre) => carry == '' ? carry ~ genre.name : carry ~ ', ' ~ genre.name) }}</li>
         <li>Price : {{ movie.price }}</li>
+        <li>IMDb Id : {{ movie.omdbId }}</li>
     </ul>
 </div>
 {% endblock %}

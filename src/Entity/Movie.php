@@ -41,7 +41,6 @@ class Movie
     private ?string $omdbId = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $addedBy = null;
 
     public function __construct()

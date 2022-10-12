@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,19 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     #[Route('', name: 'index')]
-    public function index(): Response
+    public function index(BookRepository $repository): Response
     {
         return $this->render('book/index.html.twig', [
-            'controller_name' => 'BookController',
+            'books' => $repository->findAll(),
         ]);
     }
 
-    #[Route('/{id<\d+>?1}', name: 'show', methods: ['GET'])]
+    #[Route('/{!id<\d+>?1}', name: 'show', methods: ['GET'])]
 //    #[Route('/{id}', name: 'show', requirements: ['id' => '\d+'], defaults: ['id' => 1], methods: ['GET'])]
-    public function show(int $id): Response
+    public function show(Book $book): Response
     {
-        return $this->render('book/index.html.twig', [
-            'controller_name' => $id,
+        return $this->render('book/details.html.twig', [
+            'book' => $book,
         ]);
     }
 
