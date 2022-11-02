@@ -26,6 +26,10 @@ class MovieVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
+        if ($this->checker->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
         $user = $token->getUser();
         if (!$user instanceof User) {
             return false;

@@ -16,6 +16,7 @@ class MovieProvider
         private MovieRepository $movieRepository,
         private OMDbApiConsumer $consumer,
         private OmdbMovieTransformer $transformer,
+        private GenreProvider $genreProvider,
         private Security $security
     ) {}
 
@@ -31,12 +32,14 @@ class MovieProvider
 
     private function getOneMovie(string $mode, string $value)
     {
-        $movie = $this->transformer->transform(
-            $this->consumer->consume($mode,  $value)
-        );
+        $data = $this->consumer->consume($mode,  $value);
 
-        if ($entity = $this->movieRepository->findOneBy(['title' => $movie->getTitle()])) {
+        if ($entity = $this->movieRepository->findOneBy(['title' => $data['Title']])) {
             return $entity;
+        }
+        $movie = $this->transformer->transform($data);
+        foreach ($this->genreProvider->getGenresFromString($data['Genre']) as $genre) {
+            $movie->addGenre($genre);
         }
 
         $movie->setAddedBy($this->security->getUser());

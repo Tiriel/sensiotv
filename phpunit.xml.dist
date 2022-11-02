@@ -27,6 +27,14 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">src/Entity</directory>
+            <directory suffix=".php">src/Event</directory>
+            <directory suffix=".php">src/EventSubscriber</directory>
+            <directory suffix=".php">src/DTO</directory>
+            <directory suffix=".php">src/Form</directory>
+            <file>src/Security/LoginFormAuthenticator</file>
+        </exclude>
     </coverage>
 
     <listeners>
